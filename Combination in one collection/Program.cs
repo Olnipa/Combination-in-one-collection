@@ -4,8 +4,8 @@
     {
         static void Main(string[] args)
         {
-            int[] array1 = FillArray();
-            int[] array2 = FillArray();
+            int[] array1 = CreateArray();
+            int[] array2 = CreateArray();
             List<int> combinationList = new List<int>();
 
             AddNumber(array1, combinationList);
@@ -13,7 +13,33 @@
 
             WriteArray(array1, "Массив 1:");
             WriteArray(array2, "Массив 2:");
-            WriteList(combinationList, "Объединенная коллекция без повторных значений:");
+            WriteList(combinationList, "Объединенная коллекция List без повторных значений:");
+
+            HashSet<int> addNumber2 = AddNumber2(array1, array2);
+            WriteList(combinationList, "Объединенная коллекция HashSet без повторных значений:");
+
+            AddNumber3(array1, combinationList);
+            AddNumber3(array2, combinationList);
+            WriteList(combinationList, "Объединенная коллекция List без повторных значений ()another way with Contain Method):");
+        }
+
+        static void AddNumber3(int[] array, List<int> combinationList)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (!combinationList.Contains(array[i]))
+                {
+                    combinationList.Add(i);
+                }
+            }
+        }
+
+        static HashSet<int> AddNumber2(int[] array1, int[] array2)
+        {
+            HashSet<int> numbers1 = new HashSet<int>(array1);
+            HashSet<int> numbers2 = new HashSet<int>(array2);
+            numbers1.UnionWith(numbers2);
+            return numbers1;
         }
 
         static void AddNumber(int[] array, List<int> combinationList)
@@ -60,8 +86,20 @@
 
             Console.WriteLine("\n");
         }
+        
+        static void WriteHashSet(HashSet<int> array, string text)
+        {
+            Console.WriteLine(text);
 
-        static int[] FillArray()
+            foreach (var number in array)
+            {
+                Console.Write(number + " ");
+            }
+
+            Console.WriteLine("\n");
+        }
+
+        static int[] CreateArray()
         {
             Random random = new Random();
             int minArrayLenght = 3;
